@@ -6,11 +6,9 @@ public class Constants : MonoBehaviour {
 
 	public static int CURRENT_MAX_NUM_HIT;
 
-	private Block[] allBlocks;
-
 	// Use this for initialization
 	void Start () {
-		allBlocks = FindObjectsOfType<Block>();
+		
 	}
 	
 	// Update is called once per frame
