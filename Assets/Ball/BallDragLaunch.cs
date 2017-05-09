@@ -7,23 +7,39 @@ public class BallDragLaunch : MonoBehaviour {
 	private Vector3 dragStartWorldPos;
 	private Vector3 dragEndWorldPos;
 	private Vector3 currentDrag;
+	private Vector3 launchVector;
 	private Ball ball;
 	private LineRenderer lineRenderer;
 	private bool isDragging = false;
+	private bool launchBalls = false;
+	private int numberOfBallsToLaunch = 3;
+	private int numberOfBallsLaunched = 0;
 
 
 	// Use this for initialization
 	void Start () {
 		ball = FindObjectOfType<Ball>();
 		lineRenderer = GetComponent<LineRenderer>();
-		lineRenderer.SetPosition(0, ball.transform.position);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		HandleLineRendererDraw();
+		if(numberOfBallsLaunched < numberOfBallsToLaunch && launchBalls){
+			ball.Launch(launchVector);
+			numberOfBallsLaunched++;
+		}
+	}
+
+	private void HandleLineRendererDraw(){
 		if(isDragging){
+			lineRenderer.enabled = true;
 			currentDrag = dragStartWorldPos - GetMousePosWorldCoordinates();
+			lineRenderer.SetPosition(0, ball.transform.position);
 			lineRenderer.SetPosition(1, ball.transform.position + currentDrag);
+		}
+		else{
+			lineRenderer.enabled = false;
 		}
 	}
 
@@ -36,8 +52,8 @@ public class BallDragLaunch : MonoBehaviour {
 		isDragging = false;
 		dragEndWorldPos = GetMousePosWorldCoordinates();
 
-		Vector3 launchVector = (dragStartWorldPos - dragEndWorldPos).normalized;
-		ball.Launch(new Vector2(launchVector.x, launchVector.y));
+		launchVector = (dragStartWorldPos - dragEndWorldPos).normalized;
+		launchBalls = true;
 	}
 
 	private Vector3 GetMousePosWorldCoordinates(){
