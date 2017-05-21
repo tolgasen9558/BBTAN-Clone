@@ -31,4 +31,12 @@ public class Ball : MonoBehaviour {
 		                  + groundStopOffset;
 		rb2d.position = new Vector2(rb2d.position.x, finalYPos);
 	}
+
+    public Vector2 GetPosition() {
+        return rb2d.position;
+    }
+
+    public void SetPosition(Vector2 pos) {
+        rb2d.position = pos;
+    }
 }

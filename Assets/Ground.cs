@@ -17,7 +17,7 @@ public class Ground : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 		Ball ball = other.GetComponent<Ball>();
 		if (ball != null){
-			GameManager.instance.BallHitGround();
+			GameManager.instance.BallHitGround(ball);
 		}
 	}
 }
