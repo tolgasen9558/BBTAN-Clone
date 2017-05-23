@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour {
 
-	public float speed = 5f;
+	public float speed = 3f;
 
 	private Rigidbody2D rb2d;
 	private float groundStopOffset = 0.18f;
 	private Ground ground;
+	private bool moveTowardsCollect = false;
+	private Vector2 collectedPos;
+
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +21,11 @@ public class Ball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(moveTowardsCollect && Mathf.Abs(rb2d.position.x - collectedPos.x) < 0.1f ){
+			moveTowardsCollect = false;
+			rb2d.velocity = Vector2.zero;
+			rb2d.position = collectedPos;
+		}
 	}
 
 	public void Launch(Vector2 direction){
@@ -39,4 +46,15 @@ public class Ball : MonoBehaviour {
     public void SetPosition(Vector2 pos) {
         rb2d.position = pos;
     }
+
+	public void MoveTo(Vector2 pos){
+		this.collectedPos = pos;
+		moveTowardsCollect = true;
+		if(rb2d.position.x < pos.x){
+			rb2d.velocity = Vector2.right * speed;
+		}
+		else{
+			rb2d.velocity = Vector2.left * speed;
+		}
+	}
 }

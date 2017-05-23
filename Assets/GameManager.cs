@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour {
             firstBallHitGround = true;
         }
         else {
-            ball.SetPosition(BallStartPos);
+            ball.MoveTo(BallStartPos);
         }
         ballController.InstantiateBallsIfNeeded(BallStartPos);
     }
