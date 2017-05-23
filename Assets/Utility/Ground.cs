@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Ground : MonoBehaviour {
 
+	private BallController ballController;
+
 	// Use this for initialization
 	void Start () {
-		
+		ballController = FindObjectOfType<BallController>();
 	}
 	
 	// Update is called once per frame
@@ -17,7 +19,7 @@ public class Ground : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 		Ball ball = other.GetComponent<Ball>();
 		if (ball != null){
-			GameManager.instance.BallHitGround(ball);
+			ballController.BallHitGround(ball);
 		}
 	}
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BallDragLaunch : MonoBehaviour {
 
+	private BallController ballController;
+
 	private Vector3 dragStartWorldPos;
     private Vector3 dragEndWorldPos;
     private Vector2 currentDrag;
@@ -13,6 +15,7 @@ public class BallDragLaunch : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		lineRenderer = GetComponent<LineRenderer>();
+		ballController = FindObjectOfType<BallController>();
     }
 	
 	// Update is called once per frame
@@ -24,8 +27,8 @@ public class BallDragLaunch : MonoBehaviour {
         if (isDragging){
 			lineRenderer.enabled = true;
             currentDrag  = dragStartWorldPos - GetMousePosWorldCoordinates();
-			lineRenderer.SetPosition(0, GameManager.instance.BallStartPos);
-			lineRenderer.SetPosition(1, GameManager.instance.BallStartPos + currentDrag);
+			lineRenderer.SetPosition(0, ballController.BallStartPos);
+			lineRenderer.SetPosition(1, ballController.BallStartPos + currentDrag);
 		}
 		else{
 			lineRenderer.enabled = false;

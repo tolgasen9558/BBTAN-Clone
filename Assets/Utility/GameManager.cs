@@ -5,15 +5,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
-    public Vector2 BallStartPos {
-        get { return m_ballStartPos; }
-        set { m_ballStartPos = value; }
-    }
+    
 
     private BallDragLaunch ballDragLaunch;
     private BallController ballController;
-    private Vector2 m_ballStartPos;
-    private bool firstBallHitGround = false;
+	private BlockController blockController;
+
 
 
 	void Awake (){
@@ -27,12 +24,13 @@ public class GameManager : MonoBehaviour {
 
         ballDragLaunch = FindObjectOfType<BallDragLaunch>();
         ballController = FindObjectOfType<BallController>();
+		blockController = FindObjectOfType<BlockController>();
+
     }
 
     // Use this for initialization
     void Start(){
-        BallStartPos = new Vector2(0, -3.8f);
-        ballController.InstantiateBallsIfNeeded(BallStartPos);
+		
     }
 
     // Update is called once per frame
@@ -42,19 +40,13 @@ public class GameManager : MonoBehaviour {
 
     public void DragFinished(Vector2 launchVector) {
         ballController.CurrentBallCount++;
+		print("Ball Count " + ballController.CurrentBallCount);
         StartCoroutine(ballController.LaunchBalls(launchVector));
-        firstBallHitGround = false;
     }
 
-    public void BallHitGround(Ball ball){
-        ball.HitGround();
-        if (firstBallHitGround == false) {
-            BallStartPos = ball.GetPosition();
-            firstBallHitGround = true;
-        }
-        else {
-            ball.MoveTo(BallStartPos);
-        }
-        ballController.InstantiateBallsIfNeeded(BallStartPos);
-    }
+	public void LastBallHitGround(){
+		blockController.SlideBlocksDown();
+	}
+
+    
 }
