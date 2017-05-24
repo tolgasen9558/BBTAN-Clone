@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(Canvas))]
 public class BallDragLaunch : MonoBehaviour {
+
+	public Canvas uiCanvas;
 
 	private BallController ballController;
 
@@ -50,4 +54,9 @@ public class BallDragLaunch : MonoBehaviour {
 	private Vector3 GetMousePosWorldCoordinates(){
 		return (Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(0, 0, Camera.main.transform.position.z));
 	}
+
+	public void SetMouseEnabled(bool isEnabled){
+		uiCanvas.GetComponent<GraphicRaycaster>().enabled = isEnabled;
+	}
+
 }

@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: 72e0211f0f66b494b852630690f8b961
-timeCreated: 1493806543
+timeCreated: 1495585280
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - uiCanvas: {fileID: 223483800460795252, guid: 96910fc53b3bf8f4887bd1bb89daac51,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

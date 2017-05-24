@@ -45,7 +45,6 @@ public class BallController : MonoBehaviour {
     
     public void InstantiateBallsIfNeeded(Vector2 pos) {
         int ballsToInstantiate = CurrentBallCount - ballsArray.Count;
-		print("Balls To Instantiate = " + ballsToInstantiate);
         if (ballsToInstantiate > 0) {
             for (int i = 0; i < ballsToInstantiate; i++) {
                 Ball newBall = (Instantiate(ballPrefab, pos, Quaternion.identity) as GameObject).GetComponent<Ball>();
@@ -64,9 +63,10 @@ public class BallController : MonoBehaviour {
 		}
 		else {
 			ball.MoveTo(BallStartPos);
-			if(ballsInPlay == 0){
-				GameManager.instance.LastBallHitGround();
-			}
+
+		}
+		if(ballsInPlay == 0){
+			GameManager.instance.LastBallHitGround();
 		}
 		InstantiateBallsIfNeeded(BallStartPos);
 	}

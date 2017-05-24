@@ -6,12 +6,9 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
     
-
     private BallDragLaunch ballDragLaunch;
     private BallController ballController;
 	private BlockController blockController;
-
-
 
 	void Awake (){
 		if(instance == null){
@@ -40,13 +37,12 @@ public class GameManager : MonoBehaviour {
 
     public void DragFinished(Vector2 launchVector) {
         ballController.CurrentBallCount++;
-		print("Ball Count " + ballController.CurrentBallCount);
         StartCoroutine(ballController.LaunchBalls(launchVector));
+		ballDragLaunch.SetMouseEnabled(false);
     }
 
 	public void LastBallHitGround(){
 		blockController.SlideBlocksDown();
+		ballDragLaunch.SetMouseEnabled(true);
 	}
-
-    
 }
