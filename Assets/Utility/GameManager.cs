@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour {
     private BallDragLaunch ballDragLaunch;
     private BallController ballController;
 	private BlockController blockController;
+    private UIHandler uiHandler;
 
 	void Awake (){
 		if(instance == null){
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour {
         ballDragLaunch = FindObjectOfType<BallDragLaunch>();
         ballController = FindObjectOfType<BallController>();
 		blockController = FindObjectOfType<BlockController>();
+        uiHandler = FindObjectOfType<UIHandler>();
 
     }
 
@@ -43,6 +46,13 @@ public class GameManager : MonoBehaviour {
 
 	public void LastBallHitGround(){
 		blockController.SlideBlocksDown();
-		ballDragLaunch.SetMouseEnabled(true);
+        ballController.InstantiateBallsIfNeeded();
+        ballDragLaunch.SetMouseEnabled(true);
 	}
+
+    public void BlockHitGround() {
+        print("here");
+        ballDragLaunch.SetMouseEnabled(false);
+        uiHandler.GameOver();
+    }
 }

@@ -60,7 +60,11 @@ public class Block : MonoBehaviour {
 	public void SlideDown(){
 		moveToDestination = true;
 		destination = (Vector2)transform.position + Vector2.down;
-		print("Calculated Destination: " + destination);
 		rb2d.velocity = Vector2.down * slideSpeed;
 	}
+
+    public Vector2 GetPosition() {
+        return rb2d.position;
+    }
+
 }

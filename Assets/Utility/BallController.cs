@@ -20,34 +20,33 @@ public class BallController : MonoBehaviour {
 		get { return m_ballStartPos; }
 		set { m_ballStartPos = value; }
 	}
-	private bool firstBallHitGround = false;
-	private int ballsInPlay = 0;
+    private int fallenBalls = 0;
 
 	// Use this for initialization
 	void Start () {
         ballsArray = new List<Ball>();
 		BallStartPos = new Vector2(0, -3.8f);
-		InstantiateBallsIfNeeded(BallStartPos);
+		InstantiateBallsIfNeeded();
     }
 
     // Update is called once per frame
     void Update () {
+
 	}
 
     public IEnumerator LaunchBalls(Vector2 launchVector) {
-		firstBallHitGround = false;
+        fallenBalls = 0;
         foreach (Ball ball in ballsArray.ToArray()) {
             ball.Launch(launchVector);
-			ballsInPlay++;
             yield return new WaitForSeconds(0.1f);
         }
     }
     
-    public void InstantiateBallsIfNeeded(Vector2 pos) {
+    public void InstantiateBallsIfNeeded() {
         int ballsToInstantiate = CurrentBallCount - ballsArray.Count;
         if (ballsToInstantiate > 0) {
             for (int i = 0; i < ballsToInstantiate; i++) {
-                Ball newBall = (Instantiate(ballPrefab, pos, Quaternion.identity) as GameObject).GetComponent<Ball>();
+                Ball newBall = (Instantiate(ballPrefab, BallStartPos, Quaternion.identity) as GameObject).GetComponent<Ball>();
                 ballsArray.Add(newBall);
 				newBall.transform.parent = this.transform;
             }
@@ -55,19 +54,16 @@ public class BallController : MonoBehaviour {
     }
 
 	public void BallHitGround(Ball ball){
-		ballsInPlay--;
+		fallenBalls++;
 		ball.HitGround();
-		if (firstBallHitGround == false) {
+		if (fallenBalls == 1) {
 			BallStartPos = ball.GetPosition();
-			firstBallHitGround = true;
 		}
 		else {
 			ball.MoveTo(BallStartPos);
-
 		}
-		if(ballsInPlay == 0){
+		if(fallenBalls == ballsArray.Count){
 			GameManager.instance.LastBallHitGround();
 		}
-		InstantiateBallsIfNeeded(BallStartPos);
 	}
 }
