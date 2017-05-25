@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour {
 
-    [SerializeField]
-    private Text gameOverText;
+    [SerializeField] private Text gameOverText;
+    [SerializeField] private Text scoreText;
+    [SerializeField] private Text highScoreText;
+    [SerializeField] private Button pauseButton;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
 	}
 	
@@ -23,4 +25,11 @@ public class UIHandler : MonoBehaviour {
         gameOverText.gameObject.SetActive(true);
     }
 
+    public void UpdateScore(int newScore) {
+        scoreText.text = newScore.ToString();
+    }
+
+    public void UpdateHighScore(int newScore) {
+        highScoreText.text = "TOP\n" + newScore.ToString();
+    }
 }

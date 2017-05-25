@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start(){
-		
+        uiHandler.UpdateScore(ballController.CurrentBallCount);
+        HandleHighScore();
     }
 
     // Update is called once per frame
@@ -45,14 +46,28 @@ public class GameManager : MonoBehaviour {
     }
 
 	public void LastBallHitGround(){
+        uiHandler.UpdateScore(ballController.CurrentBallCount);
 		blockController.SlideBlocksDown();
         ballController.InstantiateBallsIfNeeded();
         ballDragLaunch.SetMouseEnabled(true);
-	}
+        HandleHighScore();
+    }
 
     public void BlockHitGround() {
-        print("here");
         ballDragLaunch.SetMouseEnabled(false);
         uiHandler.GameOver();
     }
+
+    //TODO: Wrap this with PlayerPrefsManager
+    private void HandleHighScore() {
+        //Initialise if high score not saved
+        if(PlayerPrefs.GetInt("high_score") == 0) {
+            PlayerPrefs.SetInt("high_score", 1);
+        }
+        if(ballController.CurrentBallCount > PlayerPrefs.GetInt("high_score")) {
+            PlayerPrefs.SetInt("high_score", ballController.CurrentBallCount);
+        }
+        uiHandler.UpdateHighScore(PlayerPrefs.GetInt("high_score"));
+    }
+
 }

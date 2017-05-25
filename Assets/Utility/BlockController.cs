@@ -48,4 +48,9 @@ public class BlockController : MonoBehaviour {
         }
         return temp;
     }
+
+    public void DestroyBlock(Block block) {
+        blocksList.Remove(block);
+        Destroy(block.gameObject);
+    }
 }

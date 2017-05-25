@@ -12,6 +12,8 @@ public class Block : MonoBehaviour {
 	[SerializeField]
 	private float slideSpeed = 1f;
 
+    private BlockController blockController;
+
 	private Text hitText;
 	private Material material;
 
@@ -21,6 +23,7 @@ public class Block : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        blockController = FindObjectOfType<BlockController>();
 		rb2d = GetComponent<Rigidbody2D>();
 		material = GetComponent<Renderer>().material;
 		hitText = GetComponentInChildren<Text>();
@@ -40,7 +43,7 @@ public class Block : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D collision){
 		hitLeft--;
 		if(hitLeft <= 0){
-			Destroy(gameObject);
+            blockController.DestroyBlock(this);
 		}
 		UpdateBoxColor();
 		UpdateHitLeftText();
