@@ -23,10 +23,10 @@ public class BlockController : MonoBehaviour {
         Block lowestBlock = FindLowestBlock();
 
         //If the lowest block will hit the ground (.5f comes from box height)
-        if(((lowestBlock.GetPosition() + Vector2.down)).y - 0.5f <=                      ground.transform.position.y) {
+        if(((lowestBlock.GetPosition() + Vector2.down)).y - 0.5f <= ground.transform.position.y) {
             //Disable Colliders
             foreach (Block block in blocksList) {
-                block.GetComponent<BoxCollider2D>().enabled = false;
+                block.DisableCollider();
             }
             GameManager.instance.BlockHitGround();
         }

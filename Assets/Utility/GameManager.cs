@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     private BallDragLaunch ballDragLaunch;
     private BallController ballController;
 	private BlockController blockController;
+    private ScoreManager scoreManager;
     private UIHandler uiHandler;
 
 	void Awake (){
@@ -20,18 +21,15 @@ public class GameManager : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		DontDestroyOnLoad(gameObject);
-
-        ballDragLaunch = FindObjectOfType<BallDragLaunch>();
-        ballController = FindObjectOfType<BallController>();
-		blockController = FindObjectOfType<BlockController>();
-        uiHandler = FindObjectOfType<UIHandler>();
-
     }
 
     // Use this for initialization
     void Start(){
-        uiHandler.UpdateScore(ballController.CurrentBallCount);
-        HandleHighScore();
+        ballDragLaunch = FindObjectOfType<BallDragLaunch>();
+        ballController = FindObjectOfType<BallController>();
+        blockController = FindObjectOfType<BlockController>();
+        uiHandler = FindObjectOfType<UIHandler>();
+        scoreManager = FindObjectOfType<ScoreManager>();
     }
 
     // Update is called once per frame
@@ -41,6 +39,8 @@ public class GameManager : MonoBehaviour {
 
     public void DragFinished(Vector2 launchVector) {
         ballController.CurrentBallCount++;
+        ballController.CurrentBallCount++;
+
         StartCoroutine(ballController.LaunchBalls(launchVector));
 		ballDragLaunch.SetMouseEnabled(false);
     }
@@ -50,24 +50,11 @@ public class GameManager : MonoBehaviour {
 		blockController.SlideBlocksDown();
         ballController.InstantiateBallsIfNeeded();
         ballDragLaunch.SetMouseEnabled(true);
-        HandleHighScore();
+        scoreManager.IncreaseScore();
     }
 
     public void BlockHitGround() {
         ballDragLaunch.SetMouseEnabled(false);
         uiHandler.GameOver();
     }
-
-    //TODO: Wrap this with PlayerPrefsManager
-    private void HandleHighScore() {
-        //Initialise if high score not saved
-        if(PlayerPrefs.GetInt("high_score") == 0) {
-            PlayerPrefs.SetInt("high_score", 1);
-        }
-        if(ballController.CurrentBallCount > PlayerPrefs.GetInt("high_score")) {
-            PlayerPrefs.SetInt("high_score", ballController.CurrentBallCount);
-        }
-        uiHandler.UpdateHighScore(PlayerPrefs.GetInt("high_score"));
-    }
-
 }

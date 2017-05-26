@@ -70,4 +70,8 @@ public class Block : MonoBehaviour {
         return rb2d.position;
     }
 
+    public virtual void DisableCollider() {
+        GetComponent<BoxCollider2D>().enabled = false;
+    }
+
 }
