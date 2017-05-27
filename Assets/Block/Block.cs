@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class Block : MonoBehaviour {
 
-	public int HitLeft{get {return hitLeft;} }
+    public int HitLeft {
+        get { return hitLeft; }
+        set { hitLeft = value; }
+    }
 
-	[SerializeField]
+    [SerializeField]
 	private int hitLeft;
 	[SerializeField]
 	private float slideSpeed = 1f;
@@ -22,17 +25,20 @@ public class Block : MonoBehaviour {
 	private bool moveToDestination;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         blockController = FindObjectOfType<BlockController>();
 		rb2d = GetComponent<Rigidbody2D>();
 		material = GetComponent<Renderer>().material;
 		hitText = GetComponentInChildren<Text>();
+	}
+
+    void Start() {
 		UpdateBoxColor();
 		UpdateHitLeftText();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update () {
 		if(moveToDestination && Mathf.Abs(rb2d.position.y - destination.y) < 0.05f){
 			moveToDestination = false;
 			rb2d.position = destination;

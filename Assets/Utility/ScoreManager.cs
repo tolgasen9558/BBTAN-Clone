@@ -7,10 +7,10 @@ public class ScoreManager : MonoBehaviour {
     private UIHandler uiHandler;
 
 
-    private int m_currentScore;
+    private static int m_currentScore;
     private int m_highScore;
 
-    public int CurrentScore {
+    public static int CurrentScore {
         get { return m_currentScore; }
         set { m_currentScore = value; }
     }

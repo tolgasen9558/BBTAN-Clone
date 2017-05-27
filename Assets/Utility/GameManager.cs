@@ -47,7 +47,8 @@ public class GameManager : MonoBehaviour {
 
 	public void LastBallHitGround(){
         uiHandler.UpdateScore(ballController.CurrentBallCount);
-		blockController.SlideBlocksDown();
+        blockController.SpawnBlocks();
+        blockController.SlideBlocksDown();
         ballController.InstantiateBallsIfNeeded();
         ballDragLaunch.SetMouseEnabled(true);
         scoreManager.IncreaseScore();
