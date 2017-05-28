@@ -38,9 +38,6 @@ public class GameManager : MonoBehaviour {
 	}
 
     public void DragFinished(Vector2 launchVector) {
-        ballController.CurrentBallCount++;
-        ballController.CurrentBallCount++;
-
         StartCoroutine(ballController.LaunchBalls(launchVector));
 		ballDragLaunch.SetMouseEnabled(false);
     }

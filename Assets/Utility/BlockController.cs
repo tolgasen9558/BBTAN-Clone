@@ -9,11 +9,14 @@ public class BlockController : MonoBehaviour {
 
 	private List<Block> blocksList;
     private Ground ground;
+    [SerializeField]
+    private float slideSpeed = 1f;
 
-	// Use this for initialization
-	void Start () {
-        blocksList = GameObject.FindObjectsOfType<Block>().ToList();
-        ground = GameObject.FindObjectOfType<Ground>();
+
+    // Use this for initialization
+    void Start () {
+        blocksList = FindObjectsOfType<Block>().ToList();
+        ground = FindObjectOfType<Ground>();
 	}
 	
 	// Update is called once per frame
@@ -37,8 +40,8 @@ public class BlockController : MonoBehaviour {
             GameManager.instance.BlockHitGround();
         }
 
-		foreach(Block block in blocksList){
-			block.SlideDown();
+		foreach(Slider slidingObject in FindObjectsOfType<Slider>()){
+			slidingObject.SlideDown(slideSpeed);
 		}
 	}
 
