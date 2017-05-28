@@ -57,4 +57,9 @@ public class Ball : MonoBehaviour {
 			rb2d.velocity = Vector2.left * speed;
 		}
 	}
+
+    public void ChangeMovementRandomly() {
+        Vector2 randomVector = new Vector2(Random.Range(-1f, 1f), Random.Range(1f, 2f)).normalized;
+        rb2d.velocity = randomVector * speed;
+    }
 }

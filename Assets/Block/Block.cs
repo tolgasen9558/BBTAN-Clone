@@ -40,13 +40,8 @@ public class Block : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter2D(Collision2D collision){
-		hitLeft--;
-		if(hitLeft <= 0){
-            blockController.DestroyBlock(this);
-		}
-		UpdateBoxColor();
-		UpdateHitLeftText();
+	public void OnCollisionEnter2D(Collision2D collision){
+        GotHit();
 	}
 
 	void UpdateHitLeftText(){
@@ -68,4 +63,13 @@ public class Block : MonoBehaviour {
         GetComponent<BoxCollider2D>().enabled = false;
     }
 
+    public void GotHit() {
+        hitLeft--;
+        if (hitLeft <= 0) {
+            blockController.DestroyBlock(this);
+            return;
+        }
+        UpdateBoxColor();
+        UpdateHitLeftText();
+    }
 }

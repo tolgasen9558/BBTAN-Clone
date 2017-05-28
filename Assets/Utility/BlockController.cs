@@ -65,7 +65,7 @@ public class BlockController : MonoBehaviour {
     }
 
     public void SpawnBlocks() {
-        int blocksToSpawn = Random.Range(5, 6);
+        int blocksToSpawn = Random.Range(1, 6);
         int randomPrefabIndex;
         int randomXPos;
         Vector3 randomPosition;
@@ -100,4 +100,19 @@ public class BlockController : MonoBehaviour {
         blocksList.Add(blockComponent);
     }
 
+    public void BreakHorizontalLine(float yCoordinate) {
+        foreach (Block block in blocksList.ToArray()) {
+            if (block.transform.position.y == yCoordinate) {
+                block.GotHit();
+            }
+        }
+    }
+
+    public void BreakVerticalLine(float xCoordinate) {
+        foreach (Block block in blocksList.ToArray()) {
+            if (block.transform.position.x == xCoordinate) {
+                block.GotHit();
+            }
+        }
+    }
 }
