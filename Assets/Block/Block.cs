@@ -9,6 +9,7 @@ public class Block : MonoBehaviour {
         get { return hitLeft; }
         set { hitLeft = value; }
     }
+	public GameObject explosion;
 
     [SerializeField]
 	private int hitLeft;
@@ -26,6 +27,7 @@ public class Block : MonoBehaviour {
 	void Awake () {
         blockController = FindObjectOfType<BlockController>();
 		rb2d = GetComponent<Rigidbody2D>();
+		explosion.GetComponent<ParticleSystem>().Stop();
 		material = GetComponent<Renderer>().material;
 		hitText = GetComponentInChildren<Text>();
 	}
@@ -66,10 +68,15 @@ public class Block : MonoBehaviour {
     public void GotHit() {
         hitLeft--;
         if (hitLeft <= 0) {
+			Expload();
             blockController.DestroyBlock(this);
             return;
         }
         UpdateBoxColor();
         UpdateHitLeftText();
     }
+
+	private void Expload(){
+		var ps = Instantiate(explosion, transform.position, Quaternion.identity, blockController.transform);
+	}
 }

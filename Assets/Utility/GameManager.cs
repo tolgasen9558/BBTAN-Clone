@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+	public int ballGainEachLevel = 1;
+	public bool slideBlocksEnabled = true;
+	public bool spawnBlocksEnabled = true;
+
 	public static GameManager instance = null;
     
     private BallDragLaunch ballDragLaunch;
@@ -43,9 +47,12 @@ public class GameManager : MonoBehaviour {
     }
 
 	public void LastBallHitGround(){
+		ballController.CurrentBallCount += ballGainEachLevel;
         uiHandler.UpdateScore(ballController.CurrentBallCount);
-        blockController.SpawnBlocks();
-        blockController.SlideBlocksDown();
+
+		if(spawnBlocksEnabled){blockController.SpawnBlocks();}
+		if(slideBlocksEnabled){blockController.SlideBlocksDown();}
+        
         ballController.InstantiateBallsIfNeeded();
         ballDragLaunch.SetMouseEnabled(true);
         scoreManager.IncreaseScore();

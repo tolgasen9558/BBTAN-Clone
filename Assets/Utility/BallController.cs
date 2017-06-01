@@ -12,7 +12,7 @@ public class BallController : MonoBehaviour {
     }
 
     private List<Ball> ballsArray;
-    private int m_currentBallCount = 10;
+    private int m_currentBallCount = 1;
 
 
 	private Vector2 m_ballStartPos;
