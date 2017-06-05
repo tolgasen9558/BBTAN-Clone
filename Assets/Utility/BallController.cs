@@ -11,11 +11,12 @@ public class BallController : MonoBehaviour {
         set { m_currentBallCount = value; }
     }
 
-    private List<Ball> ballsArray;
+    private UIHandler uiHandler;
+
     private int m_currentBallCount = 1;
-
-
 	private Vector2 m_ballStartPos;
+
+    private List<Ball> ballsArray;
 	public Vector2 BallStartPos {
 		get { return m_ballStartPos; }
 		set { m_ballStartPos = value; }
@@ -24,6 +25,7 @@ public class BallController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        uiHandler = FindObjectOfType<UIHandler>();
         ballsArray = new List<Ball>();
 		BallStartPos = new Vector2(0, -3.8f);
 		InstantiateBallsIfNeeded();
@@ -36,8 +38,9 @@ public class BallController : MonoBehaviour {
 
     public IEnumerator LaunchBalls(Vector2 launchVector) {
         fallenBalls = 0;
-        foreach (Ball ball in ballsArray.ToArray()) {
-            ball.Launch(launchVector);
+        for(int i = 0; i < ballsArray.Count; i++) {
+            ballsArray[i].Launch(launchVector);
+            uiHandler.UpdateBallCount(CurrentBallCount - i - 1);
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -56,13 +59,16 @@ public class BallController : MonoBehaviour {
 	public void BallHitGround(Ball ball){
 		fallenBalls++;
 		ball.HitGround();
+        //First Ball hit ground
 		if (fallenBalls == 1) {
 			BallStartPos = ball.GetPosition();
+            GameManager.instance.FirstBallHitGround(BallStartPos);
 		}
 		else {
 			ball.MoveTo(BallStartPos);
 		}
-		if(fallenBalls == ballsArray.Count){
+        //Last Ball hit ground
+        if (fallenBalls == ballsArray.Count){
 			GameManager.instance.LastBallHitGround();
 		}
 	}

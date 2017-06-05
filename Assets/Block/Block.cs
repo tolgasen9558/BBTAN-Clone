@@ -77,6 +77,6 @@ public class Block : MonoBehaviour {
     }
 
 	private void Expload(){
-		var ps = Instantiate(explosion, transform.position, Quaternion.identity, blockController.transform);
+		Instantiate(explosion, transform.position, Quaternion.identity, blockController.transform);
 	}
 }

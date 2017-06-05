@@ -12,10 +12,12 @@ public class Ball : MonoBehaviour {
 	private bool moveTowardsCollect = false;
 	private Vector2 collectedPos;
 
-
-	// Use this for initialization
-	void Start () {
+    void Awake() {
 		rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    // Use this for initialization
+    void Start () {
 		ground = FindObjectOfType<Ground>();
 	}
 	

@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	private BlockController blockController;
     private ScoreManager scoreManager;
     private UIHandler uiHandler;
+    private BbtanController bbtanController;
 
 	void Awake (){
 		if(instance == null){
@@ -34,21 +35,24 @@ public class GameManager : MonoBehaviour {
         blockController = FindObjectOfType<BlockController>();
         uiHandler = FindObjectOfType<UIHandler>();
         scoreManager = FindObjectOfType<ScoreManager>();
-    }
+        bbtanController = FindObjectOfType<BbtanController>();
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+        uiHandler.UpdateBallCount(ballController.CurrentBallCount);
+    }
 
     public void DragFinished(Vector2 launchVector) {
         StartCoroutine(ballController.LaunchBalls(launchVector));
 		ballDragLaunch.SetMouseEnabled(false);
     }
 
+    public void FirstBallHitGround(Vector2 pos) {
+        bbtanController.MoveTo(pos);
+    }
+
 	public void LastBallHitGround(){
 		ballController.CurrentBallCount += ballGainEachLevel;
         uiHandler.UpdateScore(ballController.CurrentBallCount);
+        uiHandler.UpdateBallCount(ballController.CurrentBallCount);
 
 		if(spawnBlocksEnabled){blockController.SpawnBlocks();}
 		if(slideBlocksEnabled){blockController.SlideBlocksDown();}
