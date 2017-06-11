@@ -66,4 +66,13 @@ public class GameManager : MonoBehaviour {
         ballDragLaunch.SetMouseEnabled(false);
         uiHandler.GameOver();
     }
+
+    public void SetSoundOnOff(bool isOn) {
+        if (isOn) {
+            print("Sound On");
+        }
+        else {
+            print("Sound Off");
+        }
+    }
 }
