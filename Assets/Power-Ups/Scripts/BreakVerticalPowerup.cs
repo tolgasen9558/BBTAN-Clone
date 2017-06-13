@@ -5,6 +5,7 @@ using UnityEngine;
 public class BreakVerticalPowerup : MonoBehaviour {
 
     private BlockController blockController;
+    private SoundManager soundManager;
     private LineRenderer lineRenderer;
 
     private bool flashTrigger = false;
@@ -12,6 +13,7 @@ public class BreakVerticalPowerup : MonoBehaviour {
     // Use this for initialization
     void Start () {
         blockController = FindObjectOfType<BlockController>();
+        soundManager = FindObjectOfType<SoundManager>();
         lineRenderer = GetComponent<LineRenderer>();
     }
 
@@ -31,6 +33,7 @@ public class BreakVerticalPowerup : MonoBehaviour {
         if (ball != null) {
             ShowLineRenderer();
             blockController.BreakVerticalLine(transform.position.x);
+            soundManager.PlayLineBreak();
         }
     }
 

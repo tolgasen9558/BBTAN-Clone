@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class SpreadPowerup : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    private SoundManager soundManager;
+
+    // Use this for initialization
+    void Start () {
+        soundManager = FindObjectOfType<SoundManager>();
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -18,6 +20,7 @@ public class SpreadPowerup : MonoBehaviour {
         Ball ball = other.GetComponent<Ball>();
         if (ball != null) {
             ball.ChangeMovementRandomly();
+            soundManager.PlaySpreadPowerup();
         }
     }
 }

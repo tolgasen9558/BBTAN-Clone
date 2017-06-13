@@ -15,6 +15,7 @@ public class Block : MonoBehaviour {
 	private int hitLeft;
 
     private BlockController blockController;
+    private SoundManager soundManager;
 
 	private Text hitText;
 	private Material material;
@@ -25,7 +26,6 @@ public class Block : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-        blockController = FindObjectOfType<BlockController>();
 		rb2d = GetComponent<Rigidbody2D>();
 		explosion.GetComponent<ParticleSystem>().Stop();
 		material = GetComponent<Renderer>().material;
@@ -33,6 +33,8 @@ public class Block : MonoBehaviour {
 	}
 
     void Start() {
+        blockController = FindObjectOfType<BlockController>();
+        soundManager = FindObjectOfType<SoundManager>();
 		UpdateBoxColor();
 		UpdateHitLeftText();
     }
@@ -67,6 +69,7 @@ public class Block : MonoBehaviour {
 
     public void GotHit() {
         hitLeft--;
+        soundManager.PlayBlockHit();
         if (hitLeft <= 0) {
 			Expload();
             blockController.DestroyBlock(this);
