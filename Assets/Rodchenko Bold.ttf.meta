@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 77b645f39c48cf8429727be3424d36cd
+timeCreated: 1497386839
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: RodchenkoCTT
+  fontNames:
+  - RodchenkoCTT
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
