@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: 3faa8d6a74bce084d924c5efb16162a2
-timeCreated: 1497378435
+timeCreated: 1497435693
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - blockHitSound: {fileID: 8300000, guid: d55d5b51870d4344b8cabfb2504d641d, type: 3}
+  - lineBreakPowerupSound: {fileID: 8300000, guid: 171c4e0f0756f194cb941b3e269765ec,
+      type: 3}
+  - ballPowerupSound: {fileID: 8300000, guid: e7f0a15822b993a4abf6bf2706851711, type: 3}
+  - spreadPowerUpSound: {fileID: 8300000, guid: f650ec399debcad469321f0ecf813670,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

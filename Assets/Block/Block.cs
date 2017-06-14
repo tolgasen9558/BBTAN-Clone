@@ -14,15 +14,10 @@ public class Block : MonoBehaviour {
     [SerializeField]
 	private int hitLeft;
 
-    private BlockController blockController;
-    private SoundManager soundManager;
-
 	private Text hitText;
 	private Material material;
 
 	private Rigidbody2D rb2d;
-	private Vector2 destination;
-	private bool moveToDestination;
 
 	// Use this for initialization
 	void Awake () {
@@ -33,8 +28,6 @@ public class Block : MonoBehaviour {
 	}
 
     void Start() {
-        blockController = FindObjectOfType<BlockController>();
-        soundManager = FindObjectOfType<SoundManager>();
 		UpdateBoxColor();
 		UpdateHitLeftText();
     }
@@ -69,10 +62,10 @@ public class Block : MonoBehaviour {
 
     public void GotHit() {
         hitLeft--;
-        soundManager.PlayBlockHit();
+        SoundManager.Instance.PlayBlockHit();
         if (hitLeft <= 0) {
 			Expload();
-            blockController.DestroyBlock(this);
+            BlockController.Instance.DestroyBlock(this);
             return;
         }
         UpdateBoxColor();
@@ -80,6 +73,6 @@ public class Block : MonoBehaviour {
     }
 
 	private void Expload(){
-		Instantiate(explosion, transform.position, Quaternion.identity, blockController.transform);
+		Instantiate(explosion, transform.position, Quaternion.identity, BlockController.Instance.transform);
 	}
 }

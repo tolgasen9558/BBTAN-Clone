@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class UIHandler : MonoBehaviour {
+public class UIHandler : Singleton<UIHandler> {
 
     [SerializeField] private Text gameOverText;
     [SerializeField] private Text scoreText;
@@ -16,16 +16,15 @@ public class UIHandler : MonoBehaviour {
     [SerializeField] private Button soundOnButton;
     [SerializeField] private Button soundOffButton;
 
-    private BallController ballController;
     private Animator animator;
     private bool soundOnVisible = true;
 
     // Use this for initialization
     void Start () {
-        ballController = FindObjectOfType<BallController>();
         animator = ballCount.GetComponent<Animator>();
         soundOnButton.gameObject.SetActive(soundOnVisible);
         soundOffButton.gameObject.SetActive(!soundOnVisible);
+        UpdateBallCount(BallController.CurrentBallCount);
 	}
 	
 	// Update is called once per frame
@@ -47,7 +46,7 @@ public class UIHandler : MonoBehaviour {
 
     public void UpdateBallCount(int newBallCount) {
         ballCount.text = "x" + newBallCount.ToString();
-        if(newBallCount == ballController.CurrentBallCount) {
+        if(newBallCount == BallController.CurrentBallCount) {
             animator.SetTrigger("open_trigger");
         }
         else if(newBallCount == 0) {
@@ -78,6 +77,11 @@ public class UIHandler : MonoBehaviour {
             soundOnButton.gameObject.SetActive(false);
             soundOffButton.gameObject.SetActive(true);
         }
-        GameManager.instance.SetSoundOnOff(soundOnVisible);
+        SoundManager.Instance.SetSoundOnOff(soundOnVisible);
+    }
+
+    public void OnHomeButtonPressed() {
+        print("Exit to Main Screen");
+        GameManager.Instance.ExitToMainScreen();
     }
 }

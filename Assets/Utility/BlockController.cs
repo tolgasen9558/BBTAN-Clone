@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class BlockController : MonoBehaviour {
+public class BlockController : Singleton<BlockController> {
 
     public List<GameObject> blockPrefabs;
 
@@ -37,7 +37,7 @@ public class BlockController : MonoBehaviour {
             foreach (Block block in blocksList) {
                 block.DisableCollider();
             }
-            GameManager.instance.BlockHitGround();
+            GameManager.Instance.BlockHitGround();
         }
 
 		foreach(Slider slidingObject in FindObjectsOfType<Slider>()){

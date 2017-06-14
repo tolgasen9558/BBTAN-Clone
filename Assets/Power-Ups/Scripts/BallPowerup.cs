@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class BallPowerup : MonoBehaviour {
 
-    private BallController ballController;
-    private SoundManager soundManager;
-
 	// Use this for initialization
 	void Start () {
-        ballController = FindObjectOfType<BallController>();
-        soundManager = FindObjectOfType<SoundManager>();
 
 	}
 	
@@ -22,8 +17,8 @@ public class BallPowerup : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         Ball ball = other.GetComponent<Ball>();
         if(ball != null) {
-            ballController.CurrentBallCount++;
-            soundManager.PlayBallPowerup();
+            BallController.CurrentBallCount++;
+            SoundManager.Instance.PlayBallPowerup();
         }
         Destroy(gameObject);
     }

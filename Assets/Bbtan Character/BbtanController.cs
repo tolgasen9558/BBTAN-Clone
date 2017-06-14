@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BbtanController : MonoBehaviour {
+public class BbtanController : Singleton<BbtanController> {
 
     public float speed = 5f;
 

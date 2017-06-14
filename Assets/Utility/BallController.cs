@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class BallController : MonoBehaviour {
+public class BallController : Singleton<BallController> {
 
     public GameObject ballPrefab;
-    public int CurrentBallCount {
+    public static int CurrentBallCount {
         get { return m_currentBallCount; }
         set { m_currentBallCount = value; }
     }
 
-    private UIHandler uiHandler;
 
-    private int m_currentBallCount = 1;
+    private static int m_currentBallCount = 1;
 	private Vector2 m_ballStartPos;
 
     private List<Ball> ballsArray;
@@ -25,7 +24,6 @@ public class BallController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        uiHandler = FindObjectOfType<UIHandler>();
         ballsArray = new List<Ball>();
 		BallStartPos = new Vector2(0, -3.8f);
 		InstantiateBallsIfNeeded();
@@ -40,7 +38,7 @@ public class BallController : MonoBehaviour {
         fallenBalls = 0;
         for(int i = 0; i < ballsArray.Count; i++) {
             ballsArray[i].Launch(launchVector);
-            uiHandler.UpdateBallCount(CurrentBallCount - i - 1);
+            UIHandler.Instance.UpdateBallCount(CurrentBallCount - i - 1);
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -62,14 +60,14 @@ public class BallController : MonoBehaviour {
         //First Ball hit ground
 		if (fallenBalls == 1) {
 			BallStartPos = ball.GetPosition();
-            GameManager.instance.FirstBallHitGround(BallStartPos);
+            GameManager.Instance.FirstBallHitGround(BallStartPos);
 		}
 		else {
 			ball.MoveTo(BallStartPos);
 		}
         //Last Ball hit ground
         if (fallenBalls == ballsArray.Count){
-			GameManager.instance.LastBallHitGround();
+			GameManager.Instance.LastBallHitGround();
 		}
 	}
 }

@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class BreakHorizontalPowerup : MonoBehaviour {
 
-    private SoundManager soundManager;
-    private BlockController blockController;
     private LineRenderer lineRenderer;
     private bool flashTrigger = false;
 
 	// Use this for initialization
 	void Start () {
-        blockController = FindObjectOfType<BlockController>();
-        soundManager = FindObjectOfType<SoundManager>();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
 	}
@@ -33,8 +29,8 @@ public class BreakHorizontalPowerup : MonoBehaviour {
         Ball ball = other.GetComponent<Ball>();
         if(ball != null) {
             flashTrigger = true;
-            blockController.BreakHorizontalLine(transform.position.y);
-            soundManager.PlayLineBreak();
+            BlockController.Instance.BreakHorizontalLine(transform.position.y);
+            SoundManager.Instance.PlayLineBreak();
         }
     }
 }

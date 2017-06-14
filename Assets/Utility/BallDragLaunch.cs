@@ -4,11 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Canvas))]
-public class BallDragLaunch : MonoBehaviour {
+public class BallDragLaunch : Singleton<BallDragLaunch> {
 
 	public Canvas uiCanvas;
 
-	private BallController ballController;
 
 	private Vector3 dragStartWorldPos;
     private Vector3 dragEndWorldPos;
@@ -19,7 +18,6 @@ public class BallDragLaunch : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		lineRenderer = GetComponent<LineRenderer>();
-		ballController = FindObjectOfType<BallController>();
     }
 	
 	// Update is called once per frame
@@ -31,8 +29,8 @@ public class BallDragLaunch : MonoBehaviour {
         if (isDragging){
 			lineRenderer.enabled = true;
             currentDrag  = dragStartWorldPos - GetMousePosWorldCoordinates();
-			lineRenderer.SetPosition(0, ballController.BallStartPos);
-			lineRenderer.SetPosition(1, ballController.BallStartPos + currentDrag);
+			lineRenderer.SetPosition(0, BallController.Instance.BallStartPos);
+			lineRenderer.SetPosition(1, BallController.Instance.BallStartPos + currentDrag);
 		}
 		else{
 			lineRenderer.enabled = false;
@@ -48,7 +46,7 @@ public class BallDragLaunch : MonoBehaviour {
 		isDragging = false;
         dragEndWorldPos = GetMousePosWorldCoordinates();
         Vector2 finalVector = (dragStartWorldPos - dragEndWorldPos).normalized;
-        GameManager.instance.DragFinished(finalVector);
+        GameManager.Instance.DragFinished(finalVector);
 	}
 
 	private Vector3 GetMousePosWorldCoordinates(){

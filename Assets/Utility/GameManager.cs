@@ -1,78 +1,65 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : Singleton<GameManager> {
+
+    [SerializeField] private Object mainScene;
+    [SerializeField] private Object gameScene;
 
 	public int ballGainEachLevel = 1;
 	public bool slideBlocksEnabled = true;
 	public bool spawnBlocksEnabled = true;
 
-	public static GameManager instance = null;
-    
-    private BallDragLaunch ballDragLaunch;
-    private BallController ballController;
-	private BlockController blockController;
-    private ScoreManager scoreManager;
-    private UIHandler uiHandler;
-    private BbtanController bbtanController;
-
 	void Awake (){
-		if(instance == null){
-			instance = this;
-		}
-		else if(instance != this){
-			Destroy(gameObject);
-		}
-		DontDestroyOnLoad(gameObject);
+		if(instance == null) {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else {
+            Destroy(gameObject);
+        }
     }
 
     // Use this for initialization
     void Start(){
-        ballDragLaunch = FindObjectOfType<BallDragLaunch>();
-        ballController = FindObjectOfType<BallController>();
-        blockController = FindObjectOfType<BlockController>();
-        uiHandler = FindObjectOfType<UIHandler>();
-        scoreManager = FindObjectOfType<ScoreManager>();
-        bbtanController = FindObjectOfType<BbtanController>();
 
-        uiHandler.UpdateBallCount(ballController.CurrentBallCount);
     }
 
     public void DragFinished(Vector2 launchVector) {
-        StartCoroutine(ballController.LaunchBalls(launchVector));
-		ballDragLaunch.SetMouseEnabled(false);
+        StartCoroutine(BallController.Instance.LaunchBalls(launchVector));
+		BallDragLaunch.Instance.SetMouseEnabled(false);
     }
 
     public void FirstBallHitGround(Vector2 pos) {
-        bbtanController.MoveTo(pos);
+        BbtanController.Instance.MoveTo(pos);
     }
 
 	public void LastBallHitGround(){
-		ballController.CurrentBallCount += ballGainEachLevel;
-        uiHandler.UpdateScore(ballController.CurrentBallCount);
-        uiHandler.UpdateBallCount(ballController.CurrentBallCount);
+        BallController.CurrentBallCount += ballGainEachLevel;
+        UIHandler.Instance.UpdateScore(BallController.CurrentBallCount);
+        UIHandler.Instance.UpdateBallCount(BallController.CurrentBallCount);
 
-		if(spawnBlocksEnabled){blockController.SpawnBlocks();}
-		if(slideBlocksEnabled){blockController.SlideBlocksDown();}
+		if(spawnBlocksEnabled){BlockController.Instance.SpawnBlocks();}
+		if(slideBlocksEnabled){BlockController.Instance.SlideBlocksDown();}
         
-        ballController.InstantiateBallsIfNeeded();
-        ballDragLaunch.SetMouseEnabled(true);
-        scoreManager.IncreaseScore();
+        BallController.Instance.InstantiateBallsIfNeeded();
+        BallDragLaunch.Instance.SetMouseEnabled(true);
+        ScoreManager.Instance.IncreaseScore();
     }
 
     public void BlockHitGround() {
-        ballDragLaunch.SetMouseEnabled(false);
-        uiHandler.GameOver();
+        BallDragLaunch.Instance.SetMouseEnabled(false);
+        UIHandler.Instance.GameOver();
     }
 
-    public void SetSoundOnOff(bool isOn) {
-        if (isOn) {
-            print("Sound On");
-        }
-        else {
-            print("Sound Off");
-        }
+    public void ExitToMainScreen() {
+        SceneManager.LoadScene(1);        
+    }
+
+    public void StartGameScreen() {
+        SceneManager.LoadScene(0);
     }
 }

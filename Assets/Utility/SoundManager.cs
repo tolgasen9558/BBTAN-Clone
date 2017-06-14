@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour {
+public class SoundManager : Singleton<SoundManager> {
 
     [SerializeField] AudioClip blockHitSound;
     [SerializeField] AudioClip lineBreakPowerupSound;
@@ -40,5 +40,16 @@ public class SoundManager : MonoBehaviour {
     public void PlaySpreadPowerup() {
         audioSource.clip = spreadPowerUpSound;
         audioSource.Play();
+    }
+
+    public void SetSoundOnOff(bool isOn) {
+        if (isOn) {
+            print("Sound On");
+            audioSource.mute = false;
+        }
+        else {
+            print("Sound Off");
+            audioSource.mute = true;
+        }
     }
 }
