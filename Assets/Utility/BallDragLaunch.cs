@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BallDragLaunch : Singleton<BallDragLaunch> {
 
 	public Canvas uiCanvas;
-
+    public float dragYlowerLimit;
 
 	private Vector3 dragStartWorldPos;
     private Vector3 dragEndWorldPos;
@@ -29,6 +29,14 @@ public class BallDragLaunch : Singleton<BallDragLaunch> {
         if (isDragging){
 			lineRenderer.enabled = true;
             currentDrag  = dragStartWorldPos - GetMousePosWorldCoordinates();
+
+            if(currentDrag.y <= 0) {
+                currentDrag = Vector2.zero;
+            }
+            else if(currentDrag.y < dragYlowerLimit) {
+                currentDrag.y = dragYlowerLimit;
+            }
+
 			lineRenderer.SetPosition(0, BallController.Instance.BallStartPos);
 			lineRenderer.SetPosition(1, BallController.Instance.BallStartPos + currentDrag);
 		}
@@ -43,6 +51,9 @@ public class BallDragLaunch : Singleton<BallDragLaunch> {
 	}
 
 	public void DragEnd(){
+        if(currentDrag == Vector2.zero) {
+            return;
+        }
 		isDragging = false;
         dragEndWorldPos = GetMousePosWorldCoordinates();
         Vector2 finalVector = (dragStartWorldPos - dragEndWorldPos).normalized;
