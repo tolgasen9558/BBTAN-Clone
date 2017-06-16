@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpreadPowerup : MonoBehaviour {
+public class SpreadPowerup : BasePowerUp {
 
     // Use this for initialization
     void Start () {
@@ -17,6 +17,7 @@ public class SpreadPowerup : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         Ball ball = other.GetComponent<Ball>();
         if (ball != null) {
+            isUsed = true;
             ball.ChangeMovementRandomly();
             SoundManager.Instance.PlaySpreadPowerup();
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakVerticalPowerup : MonoBehaviour {
+public class BreakVerticalPowerup : BasePowerUp {
 
     private LineRenderer lineRenderer;
 
@@ -27,6 +27,7 @@ public class BreakVerticalPowerup : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         Ball ball = other.GetComponent<Ball>();
         if (ball != null) {
+            isUsed = true;
             ShowLineRenderer();
             BlockController.Instance.BreakVerticalLine(transform.position.x);
             SoundManager.Instance.PlayLineBreak();

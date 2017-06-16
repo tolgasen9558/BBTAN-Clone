@@ -6,9 +6,6 @@ using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager> {
 
-    [SerializeField] private Object mainScene;
-    [SerializeField] private Object gameScene;
-
 	public int ballGainEachLevel = 1;
 	public bool slideBlocksEnabled = true;
 	public bool spawnBlocksEnabled = true;
@@ -42,7 +39,7 @@ public class GameManager : Singleton<GameManager> {
         UIHandler.Instance.UpdateScore(BallController.CurrentBallCount);
         UIHandler.Instance.UpdateBallCount(BallController.CurrentBallCount);
 
-		if(spawnBlocksEnabled){BlockController.Instance.SpawnBlocks();}
+		if(spawnBlocksEnabled){BlockController.Instance.SpawnBlocksAndPowerups();}
 		if(slideBlocksEnabled){BlockController.Instance.SlideBlocksDown();}
         
         BallController.Instance.InstantiateBallsIfNeeded();

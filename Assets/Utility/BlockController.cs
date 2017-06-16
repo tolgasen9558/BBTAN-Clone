@@ -6,12 +6,19 @@ using System.Linq;
 public class BlockController : Singleton<BlockController> {
 
     public List<GameObject> blockPrefabs;
+    public GameObject addBallPowerup;
+    public GameObject horizontalBreakPowerup;
+    public GameObject verticalBreakPowerup;
+    public GameObject spreadBallPowerup;
 
 	private List<Block> blocksList;
     private Ground ground;
     [SerializeField]
     private float slideSpeed = 1f;
 
+    enum PowerUpType{
+        AddBall, HorizontalLineBreak, VerticalLineBreak, SpreadBall
+    }
 
     // Use this for initialization
     void Start () {
@@ -64,12 +71,17 @@ public class BlockController : Singleton<BlockController> {
         Destroy(block.gameObject);
     }
 
-    public void SpawnBlocks() {
-        int blocksToSpawn = Random.Range(1, 6);
+    public void SpawnBlocksAndPowerups() {
+        int powerupsToSpawn = Random.Range(0, 3);
+        int blocksToSpawn = Random.Range(1, 8 - powerupsToSpawn);
         int randomPrefabIndex;
+        PowerUpType randomPowerupType;
         int randomXPos;
         Vector3 randomPosition;
-        List<int> filledPositions = new List<int>();
+        List<int> emptyPositions = new List<int>();
+        for(int i = 0; i < 7; i++) {
+            emptyPositions.Add(i);
+        }
 
         for(int i = 0; i < blocksToSpawn; i++) {
             //Generate %80 square %5 %5 %5 %5 each for triangles
@@ -83,12 +95,36 @@ public class BlockController : Singleton<BlockController> {
 
             do {
                 randomXPos = Random.Range(0, 7);
-            } while (filledPositions.Contains(randomXPos));
-            filledPositions.Add(randomXPos);
+            } while (!emptyPositions.Contains(randomXPos));
+
+            emptyPositions.Remove(randomXPos);
+
             //Adding transform.position for finding world coordinates
             randomPosition = new Vector3(randomXPos, 8f, 0) + transform.position;
 
             SpawnBlock(blockPrefabs[randomPrefabIndex], randomPosition, ScoreManager.CurrentScore + 1);
+        }
+
+        for(int i = 0; i < powerupsToSpawn; i++) {
+            //Generate %70 addball powerup %10 %10 %10 for others
+            int temp = Random.Range(0, 100);
+            if (temp < 70) {
+                randomPowerupType = PowerUpType.AddBall;
+            }
+            else if(temp < 80){
+                randomPowerupType = PowerUpType.HorizontalLineBreak;
+            }
+            else if (temp < 90) {
+                randomPowerupType = PowerUpType.VerticalLineBreak;
+            }
+            else{
+                randomPowerupType = PowerUpType.SpreadBall;
+            }
+            randomXPos = emptyPositions[Random.Range(0, emptyPositions.Count - 1)];
+
+            //Adding transform.position for finding world coordinates
+            randomPosition = new Vector3(randomXPos, 8f, 0) + transform.position;
+            SpawnPowerup(randomPowerupType, randomPosition);
         }
     }
 
@@ -98,6 +134,25 @@ public class BlockController : Singleton<BlockController> {
         Block blockComponent = newBlock.GetComponent<Block>();
         blockComponent.HitLeft = hitLeft;
         blocksList.Add(blockComponent);
+    }
+
+    private void SpawnPowerup(PowerUpType type, Vector2 pos) {
+        GameObject prefab = null;
+        switch (type) {
+            case PowerUpType.AddBall:
+                prefab = addBallPowerup;
+                break;
+            case PowerUpType.HorizontalLineBreak:
+                prefab = horizontalBreakPowerup;
+                break;
+            case PowerUpType.VerticalLineBreak:
+                prefab = verticalBreakPowerup;
+                break;
+            case PowerUpType.SpreadBall:
+                prefab = spreadBallPowerup;
+                break;
+        }
+        Instantiate(prefab, pos, prefab.transform.rotation, transform);
     }
 
     public void BreakHorizontalLine(float yCoordinate) {
